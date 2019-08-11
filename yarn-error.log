@@ -1,0 +1,36 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js init
+
+PATH: 
+  D:\Javascript\React Course\cmder\bin;D:\Javascript\React Course\cmder\vendor\bin;D:\Javascript\React Course\cmder\vendor\conemu-maximus5\ConEmu\Scripts;D:\Javascript\React Course\cmder\vendor\conemu-maximus5;D:\Javascript\React Course\cmder\vendor\conemu-maximus5\ConEmu;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\Khushdeep\AppData\Local\Microsoft\WindowsApps;C:\Users\Khushdeep\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Khushdeep\AppData\Local\Yarn\bin;C:\Program Files\heroku\bin;C:\Users\Khushdeep\AppData\Roaming\npm;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;D:\Javascript\React Course\cmder
+
+Yarn version: 
+  1.12.3
+
+Node version: 
+  12.4.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:125278:13)
+      at Interface.emit (events.js:200:13)
+      at Interface._ttyWrite (readline.js:877:16)
+      at ReadStream.onkeypress (readline.js:189:10)
+      at ReadStream.emit (events.js:200:13)
+      at emitKeys (internal/readline.js:424:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1145:36)
+      at ReadStream.emit (events.js:200:13)
+      at addChunk (_stream_readable.js:294:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
