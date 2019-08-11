@@ -20,9 +20,19 @@ const publicDirPath = path.join ( __dirname, '../public' )
 // Setup static directory to serve
 app.use ( express.static ( publicDirPath ) )
 
+// let count = 0
+
 // Listen for new connections to Socket.io
-io.on ( 'connection', () => {
+io.on ( 'connection', ( socket ) => {
+    
     console.log ( 'New WebSocket connection' )
+
+    socket.emit ( 'message', 'Welcome to the chat room !!' )
+
+    socket.on ( 'sendMessage', ( message ) => {
+        io.emit ( 'message', message )
+    } )
+
 } )
 
 server.listen ( port, () => {
