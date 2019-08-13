@@ -27,15 +27,18 @@ io.on ( 'connection', ( socket ) => {
 
     console.log ( 'New WebSocket connection' )
 
-    socket.emit ( 'message', generateMessage ( 'Welcome to the chat room !!' ) )
-    socket.broadcast.emit ( 'message', generateMessage ( 'A new user has joined in !!' ) )
+    socket.on ( 'join', ( { username, room } ) => {
+        socket.join ( room )
+        socket.emit ( 'message', generateMessage ( 'Welcome to the chat room !!' ) )
+        socket.broadcast.to ( room ).emit ( 'message', generateMessage ( `${username} has joined in !!` ) )
+    } )
 
     socket.on ( 'sendMessage', ( message, callback ) => {
         const filter = new Filter ()
         if ( filter.isProfane ( message ) ) {
             return callback ( 'Profanity is not allowed !!')
         }
-        io.emit ( 'message', generateMessage ( message ) )
+        io.to ( 'Vaudreuil-Dorion' ).emit ( 'message', generateMessage ( message ) )
         callback ( 'Message delivered !!' )
     } )
 
