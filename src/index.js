@@ -38,7 +38,7 @@ io.on ( 'connection', ( socket ) => {
             return callback ( error )
         }
         socket.join ( user.room )
-        socket.emit ( 'message', generateMessage ( 'Welcome to the chat room !!' ) )
+        socket.emit ( 'message', generateMessage ( 'Admin', 'Welcome to the chat room !!' ) )
         socket.broadcast.to ( user.room ).emit ( 'message', generateMessage ( `${user.username} has joined in !!` ) )
         callback ()
     } )
@@ -48,19 +48,21 @@ io.on ( 'connection', ( socket ) => {
         if ( filter.isProfane ( message ) ) {
             return callback ( 'Profanity is not allowed !!')
         }
-        io.to ( 'Vaudreuil-Dorion' ).emit ( 'message', generateMessage ( message ) )
+        const user = getUser ( socket.id )
+        io.to ( user.room ).emit ( 'message', generateMessage ( user.username, message ) )
         callback ( 'Message delivered !!' )
     } )
 
     socket.on ( 'disconnect', () => {
         const user = removeUser ( socket.id )
         if ( user ) {
-            io.to ( user.room ).emit ( 'message', generateMessage ( `${user.username} has left !!` ) )
+            io.to ( user.room ).emit ( 'message', generateMessage ( 'Admin', `${user.username} has left !!` ) )
         }
     } )  
 
     socket.on ( 'shareLocation', ( coords, callback ) => {
-        io.emit ( 'locationMessage', generateLocationMessage (  `https://google.com/maps?q=${coords.latitude},${coords.longitude}` )  )
+        const user = getUser ( socket.id )
+        io.to ( user.room ).emit ( 'locationMessage', generateLocationMessage (  user.username, `https://google.com/maps?q=${coords.latitude},${coords.longitude}` )  )
         callback ( 'Location Shared !!' )
     } )
 
