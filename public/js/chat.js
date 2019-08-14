@@ -6,10 +6,12 @@ const $messageFormInput = document.querySelector ( 'input' )
 const $messageFormButton = document.querySelector ( 'button' )
 const $shareLocationButton = document.querySelector ( '#share-location' )
 const $messages = document.querySelector ( '#messages' )
+const $sidebar = document.querySelector ( '#sidebar' )
 
 // Templates
 const messageTemplate = document.querySelector ( '#message-template' ).innerHTML
 const locationMessageTemplate = document.querySelector ( '#location-message-template' ).innerHTML
+const sidebarTemplate = document.querySelector ( '#sidebar-template' ).innerHTML
 
 // Options
 const { username, room } = Qs.parse ( location.search, { ignoreQueryPrefix: true } )
@@ -34,6 +36,15 @@ socket.on ( 'locationMessage', ( locationMessage ) => {
     } )
     $messages.insertAdjacentHTML ( 'beforeend', html )
     console.log ( locationMessage )
+} )
+
+// Listen for roomData event to render user list
+socket.on ( 'roomData', ( { room, users } ) => {
+    const html = Mustache.render ( sidebarTemplate, {
+        room,
+        users
+    } )
+    $sidebar.innerHTML = html
 } )
 
 $messageForm.addEventListener ( 'submit', ( event ) => {
