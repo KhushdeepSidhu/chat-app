@@ -16,6 +16,31 @@ const sidebarTemplate = document.querySelector ( '#sidebar-template' ).innerHTML
 // Options
 const { username, room } = Qs.parse ( location.search, { ignoreQueryPrefix: true } )
 
+// Auto scrolling
+const autoScroll = () => {
+
+    // New message
+    const $newMessage = $messages.lastElementChild
+
+    // Height of the new message 
+    const newMessageStyles = getComputedStyle ( $newMessage )    // to figure out the margin bottom spacing value
+    const newMessageMargin = parseInt ( newMessageStyles.marginBottom )
+    const newMessageHeight = $newMessage.offsetHeight + newMessageMargin
+
+    // Visible Height 
+    const visibleHeight = $messages.offsetHeight
+
+    // Height of messages container 
+    const containerHeight = $messages.scrollHeight
+
+    // How far have I scrolled ?
+    const scrollOffset = $messages.scrollTop + visibleHeight
+
+    if ( containerHeight - newMessageHeight <= scrollOffset ) {
+        $messages.scrollTop = $messages.scrollHeight
+    }
+}
+
 // Listen for "message" event
 socket.on ( 'message', ( message ) => {
     const html = Mustache.render ( messageTemplate, {
@@ -24,7 +49,7 @@ socket.on ( 'message', ( message ) => {
         createdAt: moment ( message.createdAt ).format ( 'h:mm a' )
     } )
     $messages.insertAdjacentHTML ( 'beforeend', html )
-    console.log ( message )
+    autoScroll ()
 } )
 
 // Listen for location sharing message event
@@ -35,7 +60,7 @@ socket.on ( 'locationMessage', ( locationMessage ) => {
         createdAt: moment ( locationMessage.createdAt ).format ( 'h:mm a' )
     } )
     $messages.insertAdjacentHTML ( 'beforeend', html )
-    console.log ( locationMessage )
+    autoScroll ()
 } )
 
 // Listen for roomData event to render user list
@@ -58,7 +83,6 @@ $messageForm.addEventListener ( 'submit', ( event ) => {
         $messageFormButton.removeAttribute ( 'disabled' )
         $messageFormInput.value = ''
         $messageFormInput.focus ()
-        console.log ( message )
     } )
 } )
 
@@ -76,7 +100,6 @@ $shareLocationButton.addEventListener ( 'click', () => {
             longitude: position.coords.longitude
         }, ( message ) => {
             $shareLocationButton.removeAttribute ( 'disabled' )
-            console.log ( message )
         } )
     } )
 
